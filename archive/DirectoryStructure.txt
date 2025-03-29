@@ -1,0 +1,47 @@
+quantum_signal_emulator/
+├── __init__.py
+├── main.py
+├── constants.py
+├── system_configs.py
+├── common/
+│   ├── __init__.py
+│   ├── interfaces.py
+│   ├── visualizer.py
+│   └── quantum_processor.py
+├── systems/
+│   ├── __init__.py
+│   ├── system_factory.py
+│   ├── nes/
+│   │   ├── __init__.py
+│   │   ├── cpu.py
+│   │   ├── ppu.py
+│   │   ├── apu.py
+│   │   ├── memory.py
+│   │   └── cartridge.py
+│   ├── snes/
+│   │   ├── __init__.py
+│   │   ├── cpu.py
+│   │   ├── ppu.py
+│   │   ├── dsp.py
+│   │   ├── memory.py
+│   │   └── cartridge.py
+│   ├── genesis/
+│   │   ├── __init__.py
+│   │   ├── m68k_cpu.py
+│   │   ├── z80_cpu.py
+│   │   ├── vdp.py
+│   │   ├── fm_sound.py
+│   │   ├── memory.py
+│   │   └── cartridge.py
+│   └── atari2600/
+│       ├── __init__.py
+│       ├── cpu.py
+│       ├── tia.py
+│       ├── riot.py
+│       ├── memory.py
+│       └── cartridge.py
+└── analysis/
+    ├── __init__.py
+    ├── cycle_analyzer.py
+    ├── state_recorder.py
+    └── quantum_analyzer.py
