@@ -5,7 +5,7 @@ from ..system_configs import SYSTEM_CONFIGS
 # Import system implementations
 from .nes.nes_system import NESSystem
 from .snes.snes_system import SNESSystem
-#from .genesis.genesis_system import GenesisSystem
+from .genesis.genesis_system import GenesisSystem
 from .atari2600.atari_system import AtariSystem
 
 class SystemFactory:
