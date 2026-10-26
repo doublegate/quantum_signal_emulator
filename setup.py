@@ -3,20 +3,22 @@ from setuptools import setup, find_packages
 setup(
     name="quantum_signal_emulator",
     version="0.1.0",
-    packages=find_packages(),
+    package_dir={"quantum_signal_emulator": "."},
+    packages=["quantum_signal_emulator"] + [
+        f"quantum_signal_emulator.{pkg}" for pkg in find_packages()
+    ],
     install_requires=[
         "numpy>=1.20.0",
         "scipy>=1.7.0",
-        "torch>=1.10.0",
-        "qiskit>=0.45.0",
-        "qiskit-aer>=0.9.0",
         "matplotlib>=3.4.0",
         "scikit-learn>=1.0.0",
         "tqdm>=4.62.0",
         "pandas>=1.3.0",
-        "pywavelets>=1.1.0"
+        "pywavelets>=1.1.0",
     ],
     extras_require={
+        "quantum": ["qiskit>=0.45.0", "qiskit-aer>=0.9.0"],
+        "dl": ["torch>=1.10.0"],
         "gpu": ["cupy>=10.0.0"],
     },
     entry_points={

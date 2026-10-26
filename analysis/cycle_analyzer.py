@@ -161,7 +161,7 @@ class CycleAnalyzer:
         patterns = []
         
         # Check for patterns of length 1-8 cycles
-        for pattern_length in range(1, min(9, len(cycle_deltas) // 4)):
+        for pattern_length in range(1, min(9, len(cycle_deltas) // 3 + 1)):
             pattern_counts = defaultdict(int)
             
             # Slide through the deltas looking for repeating patterns
@@ -335,7 +335,7 @@ class CycleAnalyzer:
                 
             # Calculate change frequency
             changes = sum(1 for i in range(1, len(values)) if values[i] != values[i-1])
-            change_freq = changes / len(values) if len(values) > 1 else 0
+            change_freq = changes / (len(values) - 1) if len(values) > 1 else 0
             
             # Find most common values
             value_counts = defaultdict(int)

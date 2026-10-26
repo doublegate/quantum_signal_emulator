@@ -7,17 +7,23 @@ including argument parsing and execution flow control.
 
 import argparse
 import logging
+import os
 import time
 import sys
 from typing import Dict, Any, List, Optional
 
+if not __package__:
+    _parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if _parent_dir not in sys.path:
+        sys.path.insert(0, _parent_dir)
+
 # Import from the package with absolute imports
-from systems.system_factory import SystemFactory
-from common.quantum_processor import QuantumSignalProcessor
-from common.visualizer import SignalVisualizer
-from analysis.cycle_analyzer import CycleAnalyzer
-from analysis.state_recorder import StateRecorder
-from constants import ANALYSIS_MODES
+from quantum_signal_emulator.systems.system_factory import SystemFactory
+from quantum_signal_emulator.common.quantum_processor import QuantumSignalProcessor
+from quantum_signal_emulator.common.visualizer import SignalVisualizer
+from quantum_signal_emulator.analysis.cycle_analyzer import CycleAnalyzer
+from quantum_signal_emulator.analysis.state_recorder import StateRecorder
+from quantum_signal_emulator.constants import ANALYSIS_MODES
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

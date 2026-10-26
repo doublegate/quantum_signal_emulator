@@ -10,6 +10,7 @@ target-version = ['py39']
 profile = "black"
 line_length = 100
 
-[tool.pytest]
+[tool.pytest.ini_options]
 testpaths = ["tests"]
-python_files = "test_*.py"
+python_files = ["test_*.py"]
+pythonpath = [".."]
