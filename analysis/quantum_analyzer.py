@@ -14,6 +14,8 @@ try:
     from qiskit_aer import AerSimulator
     QISKIT_AVAILABLE = True
 except ImportError:
+    QuantumCircuit = Any
+    AerSimulator = Any
     QISKIT_AVAILABLE = False
     logging.warning("Qiskit not available. Quantum processing will use simulation mode.")
 
@@ -462,7 +464,7 @@ class QuantumAnalyzer:
             
             # Calculate spectral entropy
             prob_dist = normalized_amplitude / np.sum(normalized_amplitude)
-            entropy = -np.sum(p * np.log2(p) for p in prob_dist if p > 0)
+            entropy = float(-sum(p * np.log2(p) for p in prob_dist if p > 0))
             
             # Autocorrelation for pattern detection
             autocorr = np.correlate(signal_data, signal_data, mode='full')

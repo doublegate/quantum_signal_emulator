@@ -11,6 +11,8 @@ try:
     from qiskit_aer import AerSimulator
     QISKIT_AVAILABLE = True
 except ImportError:
+    QuantumCircuit = Any
+    AerSimulator = Any
     QISKIT_AVAILABLE = False
     logging.warning("Qiskit not available. Quantum processing will use simulation mode.")
 
@@ -32,17 +34,18 @@ class QuantumSignalProcessor:
         """
         self.num_qubits = num_qubits
         self.simulator_method = simulator_method
+        self.qiskit_available = QISKIT_AVAILABLE
         
         # Initialize quantum backend if available
-        if QISKIT_AVAILABLE:
+        if self.qiskit_available:
             try:
                 self.backend = AerSimulator(method=simulator_method)
                 logger.info(f"Initialized quantum processor with {num_qubits} qubits using Aer simulator")
             except Exception as e:
                 logger.error(f"Error initializing quantum backend: {e}")
-                QISKIT_AVAILABLE = False
+                self.qiskit_available = False
         
-        if not QISKIT_AVAILABLE:
+        if not self.qiskit_available:
             logger.warning("Using classical simulation for quantum processing")
     
     def encode_signal(self, signal_data: np.ndarray) -> Union[QuantumCircuit, None]:
@@ -55,7 +58,7 @@ class QuantumSignalProcessor:
         Returns:
             Quantum circuit with encoded signal or None if quantum libraries unavailable
         """
-        if not QISKIT_AVAILABLE:
+        if not self.qiskit_available:
             return None
             
         # Normalize signal to [0, 1] for amplitude encoding
@@ -97,7 +100,7 @@ class QuantumSignalProcessor:
         Returns:
             Circuit with QFT applied, or None if input was None
         """
-        if not QISKIT_AVAILABLE or circuit is None:
+        if not self.qiskit_available or circuit is None:
             return None
             
         # Clone the circuit to avoid modifying the original
@@ -135,7 +138,7 @@ class QuantumSignalProcessor:
         }
         
         # If quantum libraries unavailable, perform classical analysis
-        if not QISKIT_AVAILABLE:
+        if not self.qiskit_available:
             logger.info("Using classical FFT for signal analysis")
             return self._classical_signal_analysis(signal_data)
         
@@ -353,7 +356,7 @@ class QuantumSignalProcessor:
         
         # Calculate classical entropy (Shannon entropy)
         prob_dist = normalized_amplitude / np.sum(normalized_amplitude)
-        entropy = -np.sum(p * np.log2(p) for p in prob_dist if p > 0)
+        entropy = float(-sum(p * np.log2(p) for p in prob_dist if p > 0))
         
         # Create interference pattern (using autocorrelation as classical analogue)
         interference = np.correlate(signal_data, signal_data, mode='full')
